@@ -5,7 +5,6 @@ use Libraries.Sound.Speech
 use Libraries.Game.Graphics.Drawable
 use Libraries.Interface.Events.KeyboardEvent
 use Libraries.Game.InputMonitor
-use Libraries.Interface.Item2D
 use Libraries.Compute.Random
 
 /*
@@ -29,7 +28,7 @@ class Main is Game, CollisionListener2D
         begin from Main.
     */
     action Main
-        SetScreenSize(500,500)
+        SetScreenSize(1000,1000)
         StartGame()
     end
 
@@ -44,16 +43,16 @@ class Main is Game, CollisionListener2D
         
         monkey:Load("monkey-png-19.png")
         monkey:SetPosition(50,50)
-        monkey:SetSize(100,100)
+        monkey:SetSize(200,200)
         monkey:SetName("monkey")
-        Add (monkey)
         monkey:SetCollidable(true)
 
         banana:Load("Banana-Bunch.png")
-        banana:SetSize(50,50)
+        banana:SetSize(100,100)
         banana:SetName("banana")
         banana:Hide()
         Add (banana)
+        Add (monkey)
         banana:SetCollidable(true)
 
         AddCollisionListener(me)
@@ -67,12 +66,6 @@ class Main is Game, CollisionListener2D
         or to make creatures jump.
     */
     action Update(number seconds)
-        if im:IsKeyPressed(button:ENTER)
-            a = x:RandomIntegerBetween(0,500)
-            b = y:RandomIntegerBetween(0,500)
-            banana:SetPosition (a,b)
-            banana:Show()
-        end
 
         if im:IsKeyPressed(button:UP)
             monkey:SetY(monkey:GetY()+ 10)
@@ -93,6 +86,13 @@ class Main is Game, CollisionListener2D
         if im:IsKeyPressed(button:X)
             Exit()
         end
+        
+        if monkey:GetX() > 900
+            monkey:SetX(0)
+        end
+        if monkey:GetY() > 900 or monkey:GetY() < 0
+            monkey:SetY(0)
+        end
     end
 
 
@@ -103,5 +103,9 @@ class Main is Game, CollisionListener2D
     action FinishCollision(CollisionEvent2D event)
         talk:Say("Banana gone!")
         banana:Hide()
+        a = x:RandomIntegerBetween(0,900)
+        b = y:RandomIntegerBetween(0,900)
+        banana:SetPosition (a,b)
+        banana:Show()
     end
 end
