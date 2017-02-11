@@ -42,7 +42,7 @@ class Main is Game, CollisionListener2D
 
         
         monkey:Load("monkey-png-19.png")
-        monkey:SetPosition(50,50)
+        monkey:SetPosition(150,50)
         monkey:SetSize(200,200)
         monkey:SetName("monkey")
         monkey:SetCollidable(true)
@@ -50,7 +50,6 @@ class Main is Game, CollisionListener2D
         banana:Load("Banana-Bunch.png")
         banana:SetSize(100,100)
         banana:SetName("banana")
-        banana:Hide()
         Add (banana)
         Add (monkey)
         banana:SetCollidable(true)
@@ -77,20 +76,32 @@ class Main is Game, CollisionListener2D
 
         if im:IsKeyPressed(button:RIGHT)
             monkey:SetX(monkey:GetX()+ 10)
+            monkey:SetFlipX(false)
         end
 
         if im:IsKeyPressed(button:LEFT)
-            monkey:SetX(monkey:GetX()- 10)
+            monkey:SetX(monkey:GetX()- 10)   
+            monkey:SetFlipX(true)
         end
+        
 
         if im:IsKeyPressed(button:X)
             Exit()
         end
+
+        if monkey:GetX() < 0
+            monkey:SetX(900)
+        end
         
-        if monkey:GetX() > 900
+        if monkey:GetX() > 900  
             monkey:SetX(0)
         end
-        if monkey:GetY() > 900 or monkey:GetY() < 0
+
+        if monkey:GetY() < 0
+            monkey:SetY(900)
+        end
+
+        if monkey:GetY() > 900  
             monkey:SetY(0)
         end
     end
